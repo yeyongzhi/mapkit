@@ -1,0 +1,47 @@
+{
+  "name": "@mapkit/components",
+  "version": "0.0.0",
+  "description": "@mapkit/components",
+  "main": "index.js",
+  "module": "dist/components.es.js",
+  "types": "dist/components.d.ts",
+  "files": [
+    "index.js",
+    "dist"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/components.d.ts",
+      "node": {
+        "production": "./dist/components.cjs.prod.js",
+        "development": "./dist/components.cjs.js",
+        "default": "./index.js"
+      },
+      "module": "./dist/components.es.js",
+      "import": "./dist/components.es.js",
+      "require": "./index.js"
+    }
+  },
+  "buildOptions": {
+    "name": "MapkitTrackPlayback",
+    "formats": [
+      "es",
+      "cjs",
+      "umd"
+    ]
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/BitterGardenia/mapkit",
+    "directory": "packages/components"
+  },
+  "keywords": [
+    "mapkit"
+  ],
+  "author": "Bitter Gardenia",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/BitterGardenia/mapkit/issues"
+  },
+  "homepage": "https://github.com/BitterGardenia/mapkit/tree/main/packages/components#readme"
+}

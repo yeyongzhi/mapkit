@@ -1,0 +1,32 @@
+{
+  "include": [
+    "scripts/*",
+    "packages/global.d.ts",
+    "packages/*/src",
+    "packages/*/__tests__"
+  ],
+  "exclude": ["packages/**/__tests__/*"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "temp",
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "esnext",
+    "target": "ES2020",
+    "sourceMap": false,
+    "allowJs": true,
+    "jsx": "react-jsx",
+    "composite": true,
+    "moduleResolution": "bundler",
+    "resolveJsonModule": true,
+    "noImplicitThis": true,
+    "strict": true,
+    "verbatimModuleSyntax": true,
+    "useDefineForClassFields": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "paths": {
+      "@mapkit/*": ["packages/*/src"]
+    }
+  }
+}

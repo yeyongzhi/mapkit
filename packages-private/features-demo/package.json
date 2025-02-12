@@ -1,0 +1,21 @@
+{
+  "name": "@mapkit/track-playback-demo",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "serve": "vite preview"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "react": "catalog:",
+    "react-dom": "catalog:",
+    "@mapkit/features": "workspace:*"
+  },
+  "devDependencies": {
+    "vite": "catalog:",
+    "@vitejs/plugin-react-swc": "catalog:"
+  }
+}
