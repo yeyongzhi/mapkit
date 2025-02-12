@@ -101,14 +101,14 @@ function createInlineConfig(target, prod = false) {
           prod ? `${target}.${format}.prod.js` : `${target}.${format}.js`,
       },
       outDir,
-      rollupOptions: {
-        external: ['react'],
-        output: {
-          globals: {
-            vue: 'React',
-          },
-        },
-      },
+      // rollupOptions: {
+      //   external: ['react'],
+      //   output: {
+      //     globals: {
+      //       react: 'React',
+      //     },
+      //   },
+      // },
     },
   }
 }
