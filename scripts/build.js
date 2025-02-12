@@ -3,11 +3,12 @@ import { readFileSync } from 'node:fs'
 import { parseArgs } from 'node:util'
 import path from 'node:path'
 
-import { build } from 'vite'
+import { build, defineConfig, mergeConfig } from 'vite'
 import pico from 'picocolors'
 
 import { default as buildTargets } from './targets.js'
 import { exec } from './utils.js'
+import baseConfig from '../vitest.config.js'
 
 const { values } = parseArgs({
   allowPositionals: true,
@@ -84,31 +85,25 @@ function createInlineConfig(target, prod = false) {
   const entry = path.resolve(pkgDir, 'src/index.ts')
   const outDir = path.resolve(pkgDir, 'dist')
 
-  return {
-    define: {
-      __DEV__: !prod,
-    },
-    plugins: [],
-    build: {
-      target: 'modules',
-      minify: prod ? 'esbuild' : false,
-      emptyOutDir: false,
-      lib: {
-        entry,
-        name: buildOptions.name,
-        formats: buildOptions.formats,
-        fileName: format =>
-          prod ? `${target}.${format}.prod.js` : `${target}.${format}.js`,
+  return mergeConfig(
+    baseConfig,
+    defineConfig({
+      define: {
+        __DEV__: !prod,
       },
-      outDir,
-      // rollupOptions: {
-      //   external: ['react'],
-      //   output: {
-      //     globals: {
-      //       react: 'React',
-      //     },
-      //   },
-      // },
-    },
-  }
+      build: {
+        target: 'modules',
+        minify: prod ? 'esbuild' : false,
+        emptyOutDir: false,
+        lib: {
+          entry,
+          name: buildOptions.name,
+          formats: buildOptions.formats,
+          fileName: format =>
+            prod ? `${target}.${format}.prod.js` : `${target}.${format}.js`,
+        },
+        outDir,
+      },
+    }),
+  )
 }

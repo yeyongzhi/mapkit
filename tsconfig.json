@@ -3,9 +3,9 @@
     "scripts/*",
     "packages/global.d.ts",
     "packages/*/src",
-    "packages/*/__tests__"
+    "packages/*/__tests__",
+    "vitest.config.js"
   ],
-  "exclude": ["packages/**/__tests__/*"],
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "temp",
@@ -25,6 +25,7 @@
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "skipLibCheck": true,
+    "types": ["vitest/globals"],
     "paths": {
       "@mapkit/*": ["packages/*/src"]
     }
