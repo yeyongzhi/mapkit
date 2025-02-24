@@ -3,7 +3,7 @@ import { readFileSync } from 'node:fs'
 import { parseArgs } from 'node:util'
 import path from 'node:path'
 
-import { build, defineConfig, mergeConfig } from 'vite'
+import { defineConfig, mergeConfig, build as viteBuild } from 'vite'
 import pico from 'picocolors'
 
 import { default as buildTargets } from './targets.js'
@@ -41,7 +41,7 @@ async function run() {
       pico.black(`Building targets in ${pico.bgGreen('development')} mode...`),
     ),
   )
-  await Promise.all(targets.map(e => createInlineConfig(e, false)).map(build))
+  await Promise.all(targets.map(e => build(e, false)))
 
   // Build all targets for production
   console.log(
@@ -49,7 +49,7 @@ async function run() {
       pico.black(`Building targets in ${pico.bgRed('production')} mode...`),
     ),
   )
-  await Promise.all(targets.map(e => createInlineConfig(e, true)).map(build))
+  await Promise.all(targets.map(e => build(e, true)))
 
   // Build dts
   if (buildTypes) {
@@ -73,37 +73,43 @@ async function run() {
 /**
  * @param {string} target
  * @param {boolean} [prod=false]
- * @returns {import("vite").InlineConfig}
+ * @returns {Promise<void>}
  */
-function createInlineConfig(target, prod = false) {
+async function build(target, prod = false) {
   const pkgDir = path.resolve(`packages/${target}`)
 
-  const { buildOptions } = JSON.parse(
+  const { buildOptions, private: pkgPrivite } = JSON.parse(
     readFileSync(`${pkgDir}/package.json`, 'utf-8'),
   )
+
+  if (pkgPrivite || !buildOptions || !buildOptions.formats) {
+    return
+  }
 
   const entry = path.resolve(pkgDir, 'src/index.ts')
   const outDir = path.resolve(pkgDir, 'dist')
 
-  return mergeConfig(
-    baseConfig,
-    defineConfig({
-      define: {
-        __DEV__: !prod,
-      },
-      build: {
-        target: 'modules',
-        minify: prod ? 'esbuild' : false,
-        emptyOutDir: false,
-        lib: {
-          entry,
-          name: buildOptions.name,
-          formats: buildOptions.formats,
-          fileName: format =>
-            prod ? `${target}.${format}.prod.js` : `${target}.${format}.js`,
+  await viteBuild(
+    mergeConfig(
+      baseConfig,
+      defineConfig({
+        define: {
+          __DEV__: !prod,
         },
-        outDir,
-      },
-    }),
+        build: {
+          target: 'modules',
+          minify: prod ? 'esbuild' : false,
+          emptyOutDir: false,
+          lib: {
+            entry,
+            name: buildOptions.name,
+            formats: buildOptions.formats,
+            fileName: format =>
+              prod ? `${target}.${format}.prod.js` : `${target}.${format}.js`,
+          },
+          outDir,
+        },
+      }),
+    ),
   )
 }
