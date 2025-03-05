@@ -18,7 +18,7 @@
     "composite": true,
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "noImplicitThis": true,
+    "noImplicitThis": false,
     "strict": true,
     "verbatimModuleSyntax": true,
     "useDefineForClassFields": true,

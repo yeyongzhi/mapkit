@@ -1,3 +1,5 @@
-export function TrackPlayback() {
-  return `TrackPlayback: ${Math.random()}`
+export interface TrackPlaybackOptions {
+  map: any
 }
+
+export function TrackPlayback() {}

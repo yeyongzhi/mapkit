@@ -1,10 +1,9 @@
-import { AddressPicker, TrackPlayback } from '@mapkit/components'
+import TrackDemo from './TrackDemo'
 
 function App() {
   return (
     <>
-      <h2>{TrackPlayback()}</h2>
-      <h2>{AddressPicker()}</h2>
+      <TrackDemo />
     </>
   )
 }
